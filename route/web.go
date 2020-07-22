@@ -58,6 +58,15 @@ func fetchOsrmRoute(src string, dst string) <-chan osrmResponse {
 			return
 		}
 
+		if response.StatusCode != http.StatusOK {
+			errorMessage := struct {
+				Message string `json:"message"`
+			}{}
+			json.Unmarshal(responseData, &errorMessage)
+			fmt.Println(errorMessage.Message, "code: ", response.StatusCode)
+			return
+		}
+
 		osrmResponse := osrmResponse{}
 		err = json.Unmarshal(responseData, &osrmResponse)
 
