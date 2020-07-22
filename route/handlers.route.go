@@ -16,11 +16,25 @@ type GetRoutesResponse struct {
 	Routes []Route `json:"routes"`
 }
 
+// GetRoutes godoc
+// @Summary Retrieves routes from OSRM 3rd party service based on provided source and destination latitude and longitude
+// @Produce json
+// @Param src query string true "Comma-delimited latitude and longitude values of source location in decimal format"
+// @Param dst query []string true "Comma-delimited latitude and longitude values of destination location in decimal format"
+// @Param limit query int false "Limit of returned values"
+// @Param order query string false "Ordering of routes in the response (asc or desc) - default is asc (ascending)"
+// @Success 200 {object} GetRoutesResponse
+// @Router /routes [get]
 func GetRoutes(c *gin.Context) {
 	src := c.Query("src")
 	dsts := c.QueryArray("dst")
 	limit := c.DefaultQuery("limit", LimitDefault)
 	order := c.DefaultQuery("order", OrderDefault)
+
+	if src == "" || len(dsts) == 0 {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"message": "No src or dst parameter in the query string"})
+		return
+	}
 
 	routes := FetchAllRoutes(src, dsts)
 

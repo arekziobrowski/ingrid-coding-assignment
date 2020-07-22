@@ -1,0 +1,63 @@
+definitions:
+  route.GetRoutesResponse:
+    properties:
+      routes:
+        items:
+          $ref: '#/definitions/route.Route'
+        type: array
+      source:
+        type: string
+    type: object
+  route.Route:
+    properties:
+      destination:
+        type: string
+      distance:
+        type: number
+      duration:
+        type: number
+    type: object
+info:
+  contact:
+    email: arekziobrowski@gmail.com
+    name: Arkadiusz Ziobrowski
+  description: This is a sample REST API application built for Ingrid coding task.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Ingrid Backend Coding Task App
+  version: "1.0"
+paths:
+  /routes:
+    get:
+      parameters:
+      - description: Comma-delimited latitude and longitude values of source location in decimal format
+        in: query
+        name: src
+        required: true
+        type: string
+      - collectionFormat: multi
+        description: Comma-delimited latitude and longitude values of destination location in decimal format
+        in: query
+        items:
+          type: string
+        name: dst
+        required: true
+        type: array
+      - description: Limit of returned values
+        in: query
+        name: limit
+        type: integer
+      - description: Ordering of routes in the response (asc or desc) - default is asc (ascending)
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/route.GetRoutesResponse'
+      summary: Retrieves routes from OSRM 3rd party service based on provided source and destination latitude and longitude
+swagger: "2.0"

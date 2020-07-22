@@ -1,0 +1,96 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample REST API application built for Ingrid coding task.",
+        "title": "Ingrid Backend Coding Task App",
+        "contact": {
+            "name": "Arkadiusz Ziobrowski",
+            "email": "arekziobrowski@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/routes": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieves routes from OSRM 3rd party service based on provided source and destination latitude and longitude",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Comma-delimited latitude and longitude values of source location in decimal format",
+                        "name": "src",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "Comma-delimited latitude and longitude values of destination location in decimal format",
+                        "name": "dst",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit of returned values",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Ordering of routes in the response (asc or desc) - default is asc (ascending)",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/route.GetRoutesResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "route.GetRoutesResponse": {
+            "type": "object",
+            "properties": {
+                "routes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/route.Route"
+                    }
+                },
+                "source": {
+                    "type": "string"
+                }
+            }
+        },
+        "route.Route": {
+            "type": "object",
+            "properties": {
+                "destination": {
+                    "type": "string"
+                },
+                "distance": {
+                    "type": "number"
+                },
+                "duration": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

@@ -4,4 +4,5 @@ This is the solution of Ingrid backend coding task.
 ## Technology stack
 
 - Go 1.14
-- [Gin framework (version 1.6.3)](https://github.com/gin-gonic/gin)
+- [Gin framework](https://github.com/gin-gonic/gin)
+- [Gin swagger](https://github.com/swaggo/gin-swagger)
