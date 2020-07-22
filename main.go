@@ -29,18 +29,10 @@ const LIMIT_DEFAULT string = "-1"
 const ORDER_DEFAULT string = "asc"
 
 func main() {
-	//test := fetchOsrmRoute("-113.388860,52.517037", "13.397634,52.529407")
-	//testVal := <-test
-	//fmt.Println("test: ", testVal)
-
-	/*src := "13.388860,52.517037"
-	dsts := []string{"13.397634,52.529407", "13.428555,52.523219", "-1000,-10000"}
-	test := fetchAllRoutes(src, dsts)
-	fmt.Println("test: ", test)*/
-
+	// test URL: http://localhost:8080/routes?src=13.388860,52.517037&dst=13.397634,52.529407&dst=13.428555,52.523219
 	r := gin.Default()
 	r.GET("/routes", getRoutes)
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	r.Run() // listen and serve on 0.0.0.0:8080
 }
 
 func getRoutes(c *gin.Context) {
@@ -49,14 +41,8 @@ func getRoutes(c *gin.Context) {
 	limit := c.DefaultQuery("limit", LIMIT_DEFAULT)
 	order := c.DefaultQuery("order", ORDER_DEFAULT)
 
-	fmt.Println("source param (src): ", src)
-	fmt.Println("destination param array (dst): ", dsts)
-	fmt.Println("limit param (limit): ", limit)
-	fmt.Println("order param (order): ", order)
-
-	// Fetch OSRM
 	routes := fetchAllRoutes(src, dsts)
-	// Sort (asc, desc)
+
 	if order == "desc" {
 		sort.Sort(sort.Reverse(route.ByDurationAndDistance(routes)))
 	} else {

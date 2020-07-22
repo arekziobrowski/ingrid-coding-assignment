@@ -1,9 +1,9 @@
 package route
 
 type Route struct {
-	Dest     string
-	Duration float64
-	Distance float64
+	Dest     string  `json:"destination"`
+	Duration float64 `json:"duration"`
+	Distance float64 `json:"distance"`
 }
 
 type ByDurationAndDistance []Route
