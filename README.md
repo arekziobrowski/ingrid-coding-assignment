@@ -38,4 +38,14 @@ To run the application:
 ```
 
 ## Building Docker image
-Blah blah blah
+Run the following steps to build Docker image with the running application. All commands should be run in the root directory of this Git repository.
+
+Build docker image:
+```
+docker build . -t ingrid-go-gin
+```
+
+Run a docker container with the application:
+```
+docker run -it -p 8080:8080 ingrid-go-gin
+```
